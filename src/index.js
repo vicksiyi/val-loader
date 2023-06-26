@@ -1,7 +1,6 @@
 import Module from "module";
 import { pathToFileURL } from "url";
-
-import schema from "./options.json";
+import { getOptions } from "loader-utils";
 
 const parentModule = module;
 
@@ -58,7 +57,7 @@ function processResult(loaderContext, result) {
   // Defaults to false which is a good default here because we assume that
   // results tend to be not cacheable when this loader is necessary
   loaderContext.cacheable(Boolean(result.cacheable));
-
+  console.log(result.code, "result.code++++++++++++++");
   loaderContext.callback(
     null,
     result.code,
@@ -68,7 +67,7 @@ function processResult(loaderContext, result) {
 }
 
 export default async function loader(content) {
-  const options = this.getOptions(schema);
+  const options = getOptions(this) ?? {};
   const { executableFile } = options;
   const callback = this.async();
 
